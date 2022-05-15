@@ -39,7 +39,9 @@ const openSubPage = (pageName, elmnt, color) => {
     }
 
     // Show the specific tab content
-    if(pageName == "FrameTab"){debugger;}
+    if(pageName == "RustyTab"){
+        
+    }
     var tab = document.getElementById(pageName);
     tab.style.display = "block";
 
