@@ -13,3 +13,5 @@ www/node_modules/portfolio-website/portfolio_website_bg.js
 www/node_modules/portfolio-website/portfolio_website.d.ts
 www/node_modules/.package-lock.json
 www/package-lock.json
+blogs/*
+blogs/
