@@ -53,6 +53,14 @@ impl Blog{
                         path: String::from("website.htm"),
                     }
                 );
+
+                postvec.push(
+                    Post {
+                        name: String::from("Incident Viewer"),
+                        category: String::from("Past"),
+                        path: String::from("incident-viewer.htm"),
+                    }
+                );
             },
             "Career" => {
                 categories.extend(["Current","Past"]);
