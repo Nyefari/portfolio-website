@@ -1,8 +1,6 @@
 mod utils;
 
 use wasm_bindgen::prelude::*;
-use std::{fs, env};
-use std::path::Path;
 
 extern crate web_sys;
 
@@ -37,26 +35,45 @@ impl Blog{
     pub fn new(title: String) -> Blog {
         utils::set_panic_hook();
         log!("Creating new Blog with title: {}", title);
-        let current_dir = &env::current_dir().unwrap();
-        let path = Path::new(current_dir);
-        log!("Creating new Blog with path: {:?}", path);
-        let categories = fs::read_dir(path);
+        //let current_dir = &env::current_dir().unwrap();
+        //let path = Path::new(current_dir);
+        //log!("Creating new Blog with path: {:?}", path);
+        // let categories = fs::read_dir(path);
+        let mut categories = Vec::new();
         let mut postvec = Vec::new();
+        match title.as_str(){
+            "Projects" => {
+                categories.extend(["Current","Completed","Planned"]);
+
+                postvec.push(
+                    Post {
+                        name: String::from("Portfolio Website"),
+                        category: String::from("Current"),
+                        path: String::from("website.htm"),
+                    }
+                );
+            },
+            "Career" => {
+                categories.extend(["Current","Past"]);
+
+                postvec.push(
+                    Post {
+                        name: String::from("Service Desk Specialist"),
+                        category: String::from("Current"),
+                        path: String::from("bluepearl.htm"),
+                    }
+                );
+            },
+            "Blog" => {
+                categories.extend(["Current","2022"]);
+            }
+            _ => {},
+        }
         let mut catvec = Vec::new();
         
-        for category in categories.unwrap() {
-            let cat = category.unwrap();
-            let catname = cat.file_name().into_string().unwrap();
-            catvec.push(catname.clone());
-            for file in fs::read_dir(cat.path()).unwrap() {
-                let item = file.unwrap();
-                let content = item.path().into_os_string().into_string().unwrap();
-                postvec.push(Post {
-                    name: item.file_name().into_string().unwrap(),
-                    category: catname.clone(),
-                    path: content,
-                });
-            }
+        for category in categories {
+            let cat = category;
+            catvec.push(String::from(cat));
         }
 
         Blog {
