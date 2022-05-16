@@ -57,10 +57,20 @@ impl Blog{
                 postvec.push(
                     Post {
                         name: String::from("Incident Viewer"),
-                        category: String::from("Past"),
+                        category: String::from("Completed"),
                         path: String::from("incident-viewer.htm"),
                     }
                 );
+
+                postvec.push(
+                    Post {
+                        name: String::from(""),
+                        category: String::from("Planned"),
+                        path: String::from(""),
+                    }
+                );
+
+
             },
             "Career" => {
                 categories.extend(["Current","Past"]);
