@@ -2,7 +2,6 @@ mod utils;
 
 use wasm_bindgen::prelude::*;
 use std::fs;
-use std::path::Path;
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
@@ -14,12 +13,11 @@ static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 pub struct Post {
     name: String,
     category: String,
-    text: String,
+    path: String,
 }
 
 #[wasm_bindgen]
 pub struct Blog {
-    name: String,
     categories: Vec<String>,
     posts: Vec<Post>,
 }
@@ -38,19 +36,49 @@ impl Blog{
             catvec.push(catname.clone());
             for file in fs::read_dir(cat.path()).unwrap() {
                 let item = file.unwrap();
-                let content = String::from_utf8_lossy(&fs::read(item.path()).unwrap()).parse().unwrap();
+                let content = item.path().into_os_string().into_string().unwrap();
                 postvec.push(Post {
                     name: item.file_name().into_string().unwrap(),
                     category: catname.clone(),
-                    text: content,
+                    path: content,
                 });
             }
         }
 
         Blog {
-            name: title,
             categories: catvec,
             posts: postvec,
         }
+    }
+
+    pub fn categories(&self) -> String {
+        let mut result = String::from("");
+        for category in &self.categories {
+            result.push_str(&category);
+            result.push('*');
+        }
+        result
+    }
+    
+    pub fn posts(&self, category: String) -> String {
+        let mut result = String::from("");
+        for post in &self.posts {
+            if post.category == category {
+                result.push_str(&post.name);
+                result.push('*');
+            }
+        }
+        result
+    }
+
+    pub fn get_post_path(&self, postname: String) -> String {
+        let mut result = String::from("");
+        for post in &self.posts {
+            if post.name == postname {
+                result.push_str(&post.path);
+                break;
+            }
+        }
+        result
     }
 }

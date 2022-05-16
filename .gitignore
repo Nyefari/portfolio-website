@@ -4,5 +4,12 @@ Cargo.lock
 bin/
 pkg/
 wasm-pack.log
-www/node_modules
+www/node_modules/
 www/dist
+www/node_modules/portfolio-website/README.md
+www/node_modules/portfolio-website/portfolio_website_bg.wasm.d.ts
+www/node_modules/portfolio-website/portfolio_website_bg.wasm
+www/node_modules/portfolio-website/portfolio_website_bg.js
+www/node_modules/portfolio-website/portfolio_website.d.ts
+www/node_modules/.package-lock.json
+www/package-lock.json

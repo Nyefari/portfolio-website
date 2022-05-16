@@ -40,7 +40,41 @@
         font-size: x-large;
       }
 
+      .tabbutton {
+        background-color: #555;
+        color: white;
+        float: left;
+        border-radius: 10px;
+        border-color: rgb(18, 3, 104);
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        font-size: 20px;
+        width: calc(100%/6);
 
+      }
+
+      .tabbutton:hover {
+        background-color: #777;
+      }
+
+      .sidebutton {
+        position: absolute; 
+        left: -80px; 
+        transition: 0.3s; 
+        padding: 15px; 
+        width: 100px; 
+        text-decoration: none; 
+        font-size: 20px; 
+        color: white; 
+        border-radius: 0 5px 5px 0; 
+        background-color: rgb(60, 0, 128);
+      }
+
+      .sidebutton:hover {
+        background-color: rgb(84, 3, 104);
+        left: 0;
+      }
     </style>
   </head>
 
@@ -61,6 +95,11 @@
     </div>
     
     <div id="RustyTab" class="tabcontent">
+      <div id="RustyCats">
+      </div>
+      <div id="RustyPosts" class="sidenav">
+      </div>
+      <iframe src="" id="PostFrame" class="frame"></iframe>
     </div>
     
     <div id="AboutTab" class="tabcontent">
