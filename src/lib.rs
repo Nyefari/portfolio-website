@@ -64,6 +64,30 @@ impl Blog{
                         path: String::from("bluepearl.htm"),
                     }
                 );
+
+                postvec.push(
+                    Post {
+                        name: String::from("Lead Programmer"),
+                        category: String::from("Current"),
+                        path: String::from("worldscripting.htm"),
+                    }
+                );
+
+                postvec.push(
+                    Post {
+                        name: String::from("Lowe's Positions"),
+                        category: String::from("Past"),
+                        path: String::from("lowes.htm"),
+                    }
+                );
+
+                postvec.push(
+                    Post {
+                        name: String::from("Navy"),
+                        category: String::from("Past"),
+                        path: String::from("navy.htm"),
+                    }
+                );
             },
             "Blog" => {
                 categories.extend(["Current","2022"]);
@@ -93,14 +117,14 @@ impl Blog{
     }
     
     pub fn posts(&self, category: String) -> String {
-        let posts: Vec<Post> = self.posts.iter().filter(|p| p.category == category).cloned().collect();
-        log!("Returning {} Posts from category {}", posts.len(), category);
+        let filteredposts: Vec<Post> = self.posts.iter().filter(|p| p.category == category).cloned().collect();
+        log!("Returning {} Posts from category {}", filteredposts.len(), category);
         let mut result = String::from("");
-        if posts.len() != 0 {
-            result = String::from(&posts[0].name);
-            for i in 1..self.posts.len() {
+        if filteredposts.len() != 0 {
+            result = String::from(&filteredposts[0].name);
+            for i in 1..filteredposts.len() {
                 result.push('*');
-                result.push_str(&self.posts[i].name);
+                result.push_str(&filteredposts[i].name);
             }
         }
         result

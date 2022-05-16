@@ -133,6 +133,7 @@ const generateCategories = (blogname) => {
         switch(blogname) {
             case "Projects":
                 postString = projects.posts(categories[i]);
+                console.log("creating sidebuttons for category ".concat(categories[i]).concat(" with poststring: ").concat(postString));
                 break;
             case "Career":
                 postString = career.posts(categories[i]);
@@ -163,7 +164,7 @@ const generateCategories = (blogname) => {
             }
 
             sidebutton.setAttribute("class", "sidebutton " + categories[i] + " blogcontent");
-            sidebutton.setAttribute("style","top: " + (200 + 60*i) + "px")
+            sidebutton.setAttribute("style","top: " + (200 + 60*j) + "px")
             var postname = document.createTextNode(posts[j]);
             sidebutton.appendChild(postname);
             postsElmnt.appendChild(sidebutton);

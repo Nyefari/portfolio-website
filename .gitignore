@@ -15,3 +15,5 @@ www/node_modules/.package-lock.json
 www/package-lock.json
 blogs/*
 blogs/
+www/package.json
+*.json
