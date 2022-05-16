@@ -52,6 +52,7 @@ const openCategory = (pageName, elmnt, color) => {
     var tabs = document.getElementsByClassName(pageName);
     for (i = 0; i < tabs.length; i++) {
         tabs[i].style.display = "block";
+        tabs[i].click();
     }
 
     // Add the specific color to the button used to open the tab content
