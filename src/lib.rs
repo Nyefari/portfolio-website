@@ -1,7 +1,17 @@
 mod utils;
 
 use wasm_bindgen::prelude::*;
-use std::fs;
+use std::{fs, env};
+use std::path::Path;
+
+extern crate web_sys;
+
+// A macro to provide `println!(..)`-style syntax for `console.log` logging.
+macro_rules! log {
+    ( $( $t:tt )* ) => {
+        web_sys::console::log_1(&format!( $( $t )* ).into());
+    }
+}
 
 // When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
 // allocator.
@@ -25,12 +35,16 @@ pub struct Blog {
 #[wasm_bindgen]
 impl Blog{
     pub fn new(title: String) -> Blog {
-        let path = format!(".\\{}",title);
-        let categories = fs::read_dir(path).unwrap();
+        utils::set_panic_hook();
+        log!("Creating new Blog with title: {}", title);
+        let current_dir = &env::current_dir().unwrap();
+        let path = Path::new(current_dir);
+        log!("Creating new Blog with path: {:?}", path);
+        let categories = fs::read_dir(path);
         let mut postvec = Vec::new();
         let mut catvec = Vec::new();
         
-        for category in categories {
+        for category in categories.unwrap() {
             let cat = category.unwrap();
             let catname = cat.file_name().into_string().unwrap();
             catvec.push(catname.clone());
