@@ -27,7 +27,6 @@ const openPage = (pageName, elmnt, color) => {
 
     // Show the specific tab content
     var tab = document.getElementById(pageName);
-    debugger;
     tab.style.display = "block";
 
     // Add the specific color to the button used to open the tab content
@@ -84,29 +83,25 @@ const addTabButtonListeners = () => {
 
 const addSideButtonListeners = () => {
     var sides = document.getElementsByClassName("sidebutton");
-    var path = "";
     for (let i = 0; i < sides.length; i++) {
-        switch (currentBlog) {
-            case "Projects":
-                path = projects.get_post_path(sides[i].name)
-                break;
-            case "Career":
-                path = career.get_post_path(sides[i].name)
-                break;
-            case "Blog":
-                path = blog.get_post_path(sides[i].name)
-                break;
-            default:
-                break;
-        }
         sides[i].addEventListener("click", event => {
-            document.getElementById("PostFrame").setAttribute("src", path)
+            console.log("setting path for " + sides[i].id + " to be " + sides[i].name);
+            document.getElementById("PostFrame").setAttribute("src", sides[i].name);
         });
     }
     sides[0].click();
 }
 
 const generateCategories = (blogname) => {
+    var oldcats = document.getElementsByClassName("tabbutton");
+    for (let i = oldcats.length - 1; i >= 0; i--) {
+        oldcats[i].remove();
+    }
+    var oldposts = document.getElementsByClassName("sidebutton");
+    for (let i = oldposts.length - 1; i >= 0; i--) {
+        oldposts[i].remove();
+    }
+
     var cats = document.getElementById("RustyCats");
     var postsElmnt = document.getElementById("RustyPosts");
     var categoryString = "";
@@ -122,7 +117,6 @@ const generateCategories = (blogname) => {
             categoryString = blog.categories();
             break;
         default:
-            debugger;
             break;
     }
 
@@ -131,12 +125,12 @@ const generateCategories = (blogname) => {
         var tabbutton = document.createElement("button");
         tabbutton.setAttribute("class", "tabbutton");
         tabbutton.setAttribute("id", categories[i]);
-        tabbutton.setAttribute("style", "width: 100%/" + categories.length)
+        tabbutton.style.width = "calc(100%/".concat(categories.length).concat(")");
         var name = document.createTextNode(categories[i]);
         tabbutton.appendChild(name);
         cats.appendChild(tabbutton);
-
-        switch(blog) {
+        console.log(categories[i]);
+        switch(blogname) {
             case "Projects":
                 postString = projects.posts(categories[i]);
                 break;
@@ -147,13 +141,27 @@ const generateCategories = (blogname) => {
                 postString = blog.posts(categories[i]);
                 break;
             default:
-                debugger;
                 break;
         }
+        console.log(postString);
         var posts = postString.split("*");
         for (let j = 0; j < posts.length; j++) {
             var sidebutton = document.createElement("button");
-            sidebutton.setAttribute("name", posts[j]);
+            sidebutton.setAttribute("id", posts[j]);
+            switch(blogname) {
+                case "Projects":
+                    sidebutton.setAttribute("name", projects.get_post_path(posts[j]));
+                    break;
+                case "Career":
+                    sidebutton.setAttribute("name", career.get_post_path(posts[j]));
+                    break;
+                case "Blog":
+                    sidebutton.setAttribute("name", blog.get_post_path(posts[j]));
+                    break;
+                default:
+                    break;
+            }
+
             sidebutton.setAttribute("class", "sidebutton " + categories[i] + " blogcontent");
             sidebutton.setAttribute("style","top: " + (200 + 60*i) + "px")
             var postname = document.createTextNode(posts[j]);

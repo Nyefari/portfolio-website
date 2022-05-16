@@ -18,6 +18,7 @@ macro_rules! log {
 static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
 
 #[wasm_bindgen]
+#[derive(Clone)]
 pub struct Post {
     name: String,
     category: String,
@@ -83,20 +84,23 @@ impl Blog{
     }
 
     pub fn categories(&self) -> String {
-        let mut result = String::from("");
-        for category in &self.categories {
-            result.push_str(&category);
+        let mut result = String::from(&self.categories[0]);
+        for i in 1..self.categories.len() {
             result.push('*');
+            result.push_str(&self.categories[i]);
         }
         result
     }
     
     pub fn posts(&self, category: String) -> String {
+        let posts: Vec<Post> = self.posts.iter().filter(|p| p.category == category).cloned().collect();
+        log!("Returning {} Posts from category {}", posts.len(), category);
         let mut result = String::from("");
-        for post in &self.posts {
-            if post.category == category {
-                result.push_str(&post.name);
+        if posts.len() != 0 {
+            result = String::from(&posts[0].name);
+            for i in 1..self.posts.len() {
                 result.push('*');
+                result.push_str(&self.posts[i].name);
             }
         }
         result
